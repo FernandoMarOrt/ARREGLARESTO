@@ -32,10 +32,12 @@ public class Menu {
                            2.Dar de alta a vehiculos 
                            3.Realizar alquiler
                            4.Mostrar catalogos
-                           6.Devolver alquiler de un cliente
-                           7.Devolver los alquileres de un vehiculo con el bastidor
-                           8.Borrar un alquiler por id
-                           5.Salir
+                           5.Devolver una lista con todos Alquileres de un cliente, usando su NIF  
+                           6.Devolver una lista con todos Alquileres de un vehiculo, usando su bastidor.
+                           7.Borrar un alquiler por id
+                           8.Borrar un cliente del catálogo, si no tiene alquileres grabados.
+                           9.Borrar un vehículo del catálogo, si no tiene alquileres grabados.
+                           10.Salir
                            """);
 
             opcion = teclado.nextInt();
@@ -73,31 +75,31 @@ public class Menu {
 
                     break;
                     
-                case 6:
+                case 5:
                     
                     teclado.nextLine();
-                    System.out.println("Devolver los alquileres de un cliente");
+                    System.out.println("Devolver una lista con todos Alquileres de un cliente, usando su NIF.");
                     System.out.println("Dime el dni de algunos de los siguientes clientes" + rentacar.getCatalogoC());
                     String nif = teclado.nextLine();
 
-                    System.out.println(rentacar.devolverAlqClienteNif(nif));
+                    System.out.println(rentacar.devolverAlquilerNif(nif));
+
+                    break;
+                    
+                case 6:
+                    
+                    teclado.nextLine();
+                    System.out.println("Devolver una lista con todos Alquileres de un vehiculo, usando su bastidor.");
+                    System.out.println("Dime el bastidor de uno de los vehiculos" + rentacar.getVehiculoV());
+                    String bastidor = teclado.nextLine();
+                    
+                    System.out.println(rentacar.devolverAlquilerBastidor(bastidor));
 
                     break;
                     
                 case 7:
                     
-                    teclado.nextLine();
-                    System.out.println("Devolver los alquileres de un vehiculo con el bastidor");
-                    System.out.println("Dime el bastidor de uno de los vehiculos" + rentacar.getVehiculoV());
-                    String bastidor = teclado.nextLine();
-                    
-                    System.out.println(rentacar.devolverAlqVehiculoNif(bastidor));
-
-                    break;
-                    
-                case 8:
-                    
-                  
+                    teclado.nextInt();
                     System.out.println("Borrar un alquiler por id");
                     System.out.println("Dime el id de un alquiler");
                     int AlquilerID = teclado.nextInt();
@@ -105,9 +107,34 @@ public class Menu {
                     rentacar.borrarAlquilerID(AlquilerID);
                     
                     break;
+                    
+                    
+                case 8:
+                    
+                    teclado.nextLine();
+                    System.out.println("Borrar un cliente del catálogo, si no tiene alquileres grabados.");
+                    System.out.println("Dime el dni de uno de los siguientes clientes" + rentacar.getCatalogoC());
+                    String nif2 = teclado.nextLine();
+                    
+                    rentacar.borrarClienteSinAlq(nif2);
+                    
+                    break;
+                    
+                    
+               case 9:
+                    
+                    teclado.nextLine();
+                    System.out.println("Borrar un vehículo del catálogo, si no tiene alquileres grabados.");
+                    System.out.println("Dime el bastidor de uno de los siguientes vehiculos " + rentacar.getVehiculoV());
+                    String bastidor2 = teclado.nextLine();
+                    
+                    rentacar.borrarVehiculoSinAlq(bastidor2);
+                    
+                    break; 
+                    
             }
 
-        } while (opcion != 5);
+        } while (opcion != 10);
         
         
         

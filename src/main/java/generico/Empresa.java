@@ -149,109 +149,88 @@ public class Empresa {
 
     //FUNCIONALIDADES EXTRA EJERCICIO 5C RENTACAR CON LISTAS 
     
+    //Devolver una lista con todos Alquileres de un vehiculo, usando su nif.
+    public ArrayList<Alquiler> devolverAlquilerNif (String nif) {
+
+        //Devuelvo la nueva lista del metodo creado en catalogo alquileres
+        return this.CatalagoA.obtenerAlquilerC(nif);
+
+    }
     
-    //Devolver una lista con todos Alquileres de un cliente, usando su NIF.
-    public ArrayList devolverAlqClienteNif(String nif) {
-
-        //Creo una nueva lista para almacenar los alquileres correspondientes
-        ArrayList<Alquiler> alquileresNifC = new ArrayList();
-
-        //Recorro el catalogo de los clientes
-        for (int i = 0; i < this.CatalogoC.getLista().size(); i++) {
-
-            //Si en el catalogo alquiler hay un dni igual que en el de catalogo clientes
-            //se añadira a la nueva lista creada mas arriba 
-            if (this.CatalagoA.lista.equals(this.CatalogoC.buscarCliente(nif))) {
-
-                alquileresNifC.add(CatalagoA.getLista().get(i));
-            }
-
-        }
-
-        //Devuelvo la nueva lista
-        return alquileresNifC;
-
-    }
-
     //Devolver una lista con todos Alquileres de un vehiculo, usando su bastidor.
-    public ArrayList devolverAlqVehiculoNif(String bastidor) {
+    public ArrayList devolverAlquilerBastidor(String bastidor) {
 
-        //Creo una nueva lista para almacenar los alquileres correspondientes
-        ArrayList<Alquiler> alquileresNifV = new ArrayList();
-
-        //Recorro el catalogo de los vehiculos
-        for (int i = 0; i < this.CatalogoV.getLista().size(); i++) {
-
-            //Si en el catalogo alquiler hay un bastidor igual que en el de catalogo vehiculo
-            //se añadira a la nueva lista creada mas arriba 
-            if (this.CatalagoA.lista.equals(this.CatalogoV.buscarVehiculo(bastidor))) {
-
-                alquileresNifV.add(CatalagoA.getLista().get(i));
-            }
-
-        }
-
-        //Devuelvo la nueva lista
-        return alquileresNifV;
+        //Devuelvo la nueva lista del metodo creado en catalogo alquileres
+        return this.CatalagoA.obtenerAlquilerV(bastidor);
 
     }
 
+    
     //Borrar un alquiler por id.
     public void borrarAlquilerID(int AlquilerID) {
 
-        this.CatalagoA.getLista().remove(AlquilerID);
+        //Borro el alquiler por id 
+        this.CatalagoA.lista.remove(this.CatalagoA.buscarAlquiler(AlquilerID));
     }
 
-    //Borrar un cliente del catálogo, si no tiene alquileres grabados.------------------------------
-    public void borrarClienteSinAlq(Clientes c) {
+    
+    
+    
+    //Borrar un cliente del catálogo, si no tiene alquileres grabados.
+    public void borrarClienteSinAlq(String nif) {
 
         //Añado en la clase CatalogoAlquileres un metodo para buscar un cliente
         //Y lo uso aqui
-        boolean ClienteTieneAlquiler = this.CatalagoA.ClienteTieneAlquiler(c.getNif());
+        boolean ClienteTieneAlquiler = this.CatalagoA.ClienteTieneAlquiler(nif);
 
         if (!ClienteTieneAlquiler) {
 
-            this.CatalogoC.getLista().remove(c);
+            this.CatalogoC.getLista().remove(buscarCliente2(nif));
 
         }
 
     }
+    
+    
+    
+    
 
-    //Borrar un vehículo del catálogo, si no tiene alquileres grabados.------------------------------
-    public void borrarVehiculoSinAlq(Vehiculo v) {
+    //Borrar un vehículo del catálogo, si no tiene alquileres grabados.
+    public void borrarVehiculoSinAlq(String bastidor) {
         
         //Añado en la clase CatalogoAlquileres un metodo para buscar un vehiculo
-        //Y lo uso aqui , si 
-        boolean VehiculoTieneAlquiler = this.CatalagoA.VehiculoTieneAlquiler(v.getBastidor());
+        //Y lo uso aqui 
+        boolean VehiculoTieneAlquiler = this.CatalagoA.VehiculoTieneAlquiler(bastidor);
 
         if (!VehiculoTieneAlquiler) {
 
-            this.CatalogoV.getLista().remove(v);
+            this.CatalogoV.getLista().remove(buscarVehiculo2(bastidor));
 
         }
 
     }
     
-    //Obtener la lista de vehículos que deben ser devueltos en una fecha dada.-----------
+    //Obtener la lista de vehículos que deben ser devueltos en una fecha dada.
     
-    public ArrayList devolverVehiculos(LocalDate fecha){
+    public ArrayList devolverVehiculosFecha (LocalDate fecha){
         
-        ArrayList<Vehiculo> devolverVehiculos = new ArrayList();
+        ArrayList<Vehiculo> devolverVehiculosFecha = new ArrayList();
         
         //Recorro la lista de alquileres y si hay una fecha en ella 
         //de un vehiculo igual a la que pasamos añado ese vehiculo asociado
         //al alquiler a la nueva lista creada
         for (Alquiler alq1 : this.CatalagoA.lista) {
             
-            if(alq1.getFechaINicio().equals(fecha)) {
+            //le sumo los dias a la fecha y el resultado lo comparo con al fecha dada para ver su si son iguales
+            if(alq1.getFechaINicio().plusDays(alq1.getDuracionDias()).equals(fecha)) {
                 
-                devolverVehiculos.add(alq1.getVehiculo());
+                devolverVehiculosFecha.add(alq1.getVehiculo()); //Si son iguales las fecha las añado a la lista creada
                 
             }
             
         }
         
         //Devuelvo la nueva lista
-        return devolverVehiculos;
+        return devolverVehiculosFecha;
     }
 }
